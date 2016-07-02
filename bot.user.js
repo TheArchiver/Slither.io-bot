@@ -168,19 +168,19 @@ var canvas = window.canvas = (function () {
         drawRect: function (rect, color, fill, alpha) {
             if (alpha === undefined) alpha = 1;
 
-            var context = window.mc.getContext('2d');
+            var ctx = window.mc.getContext('2d');
             var lc = canvas.mapToCanvas({ x: rect.x, y: rect.y });
 
-            context.save();
-            context.globalAlpha = alpha;
-            context.strokeStyle = color;
-            context.rect(lc.x, lc.y, rect.width * window.gsc, rect.height * window.gsc);
-            context.stroke();
+            ctx.save();
+            ctx.globalAlpha = alpha;
+            ctx.strokeStyle = color;
+            ctx.rect(lc.x, lc.y, rect.width * window.gsc, rect.height * window.gsc);
+            ctx.stroke();
             if (fill) {
-                context.fillStyle = color;
-                context.fill();
+                ctx.fillStyle = color;
+                ctx.fill();
             }
-            context.restore();
+            ctx.restore();
         },
 
         // Draw a circle on the canvas.
@@ -188,20 +188,20 @@ var canvas = window.canvas = (function () {
             if (alpha === undefined) alpha = 1;
             if (circle.radius === undefined) circle.radius = 5;
 
-            var context = window.mc.getContext('2d');
+            var ctx = window.mc.getContext('2d');
             var drawCircle = canvas.circleMapToCanvas(circle);
 
-            context.save();
-            context.globalAlpha = alpha;
-            context.beginPath();
-            context.strokeStyle = color;
-            context.arc(drawCircle.x, drawCircle.y, drawCircle.radius, 0, Math.PI * 2);
-            context.stroke();
+            ctx.save();
+            ctx.globalAlpha = alpha;
+            ctx.beginPath();
+            ctx.strokeStyle = color;
+            ctx.arc(drawCircle.x, drawCircle.y, drawCircle.radius, 0, Math.PI * 2);
+            ctx.stroke();
             if (fill) {
-                context.fillStyle = color;
-                context.fill();
+                ctx.fillStyle = color;
+                ctx.fill();
             }
-            context.restore();
+            ctx.restore();
         },
 
         // Draw an angle.
@@ -211,39 +211,64 @@ var canvas = window.canvas = (function () {
         drawAngle: function (start, angle, color, fill, alpha) {
             if (alpha === undefined) alpha = 0.6;
 
-            var context = window.mc.getContext('2d');
+            var ctx = window.mc.getContext('2d');
 
-            context.save();
-            context.globalAlpha = alpha;
-            context.beginPath();
-            context.moveTo(window.mc.width / 2, window.mc.height / 2);
-            context.arc(window.mc.width / 2, window.mc.height / 2, window.gsc * 100, start, angle);
-            context.lineTo(window.mc.width / 2, window.mc.height / 2);
-            context.closePath();
-            context.stroke();
+            ctx.save();
+            ctx.globalAlpha = alpha;
+            ctx.beginPath();
+            ctx.moveTo(window.mc.width / 2, window.mc.height / 2);
+            ctx.arc(window.mc.width / 2, window.mc.height / 2, window.gsc * 100, start, angle);
+            ctx.lineTo(window.mc.width / 2, window.mc.height / 2);
+            ctx.closePath();
+            ctx.stroke();
             if (fill) {
-                context.fillStyle = color;
-                context.fill();
+                ctx.fillStyle = color;
+                ctx.fill();
             }
-            context.restore();
+            ctx.restore();
         },
 
         // Draw a line on the canvas.
         drawLine: function (p1, p2, color, width) {
             if (width === undefined) width = 5;
 
-            var context = window.mc.getContext('2d');
+            var ctx = window.mc.getContext('2d');
             var dp1 = canvas.mapToCanvas(p1);
             var dp2 = canvas.mapToCanvas(p2);
 
-            context.save();
-            context.beginPath();
-            context.lineWidth = width * window.gsc;
-            context.strokeStyle = color;
-            context.moveTo(dp1.x, dp1.y);
-            context.lineTo(dp2.x, dp2.y);
-            context.stroke();
-            context.restore();
+            ctx.save();
+            ctx.beginPath();
+            ctx.lineWidth = width * window.gsc;
+            ctx.strokeStyle = color;
+            ctx.moveTo(dp1.x, dp1.y);
+            ctx.lineTo(dp2.x, dp2.y);
+            ctx.stroke();
+            ctx.restore();
+        },
+
+        drawCurve: function(curve, offset) {
+            var ctx = window.mc.getContext('2d');
+          offset = offset || { x:0, y:0 };
+          var ox = offset.x;
+          var oy = offset.y;
+          ctx.beginPath();
+          var p = curve.points, i;
+          ctx.moveTo(p[0].x + ox, p[0].y + oy);
+          if(p.length === 3) {
+            ctx.quadraticCurveTo(
+              p[1].x + ox, p[1].y + oy,
+              p[2].x + ox, p[2].y + oy
+            );
+          }
+          if(p.length === 4) {
+            ctx.bezierCurveTo(
+              p[1].x + ox, p[1].y + oy,
+              p[2].x + ox, p[2].y + oy,
+              p[3].x + ox, p[3].y + oy
+            );
+          }
+          ctx.stroke();
+          ctx.closePath();
         },
 
         // Given the start and end of a line, is point left.
@@ -1363,7 +1388,7 @@ var userInterface = window.userInterface = (function () {
             }
 
             userInterface.onFrameUpdate();
-            setTimeout(userInterface.oefTimer, (1000 / bot.opt.targetFps) - (Date.now() - start));
+           // setTimeout(userInterface.oefTimer, (1000 / bot.opt.targetFps) - (Date.now() - start));
         },
 
         // Quit to menu
@@ -1394,6 +1419,8 @@ var userInterface = window.userInterface = (function () {
         }
     };
 })();
+
+window.oef = userInterface.oefTimer
 
 // Main
 (function () {
