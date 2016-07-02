@@ -1,19 +1,19 @@
 /*
 The MIT License (MIT)
+ Copyright (c) 2016 Carter Cole
  Copyright (c) 2016 Jesse Miller <jmiller@jmiller.com>
  Copyright (c) 2016 Ermiya Eskandary & Théophile Cailliau and other contributors
- https://jmiller.mit-license.org/
 */
 // ==UserScript==
-// @name         Slither.io Bot Championship Edition
-// @namespace    https://github.com/j-c-m/Slither.io-bot
-// @version      2.0.3
+// @name         Slither.io +!
+// @namespace    https://github.com/TheArchiver/Slither.io-bot
+// @version      3.0.3
 // @description  Slither.io Bot Championship Edition
-// @author       Jesse Miller
+// @author       Carter Cole
 // @match        http://slither.io/
-// @updateURL    https://github.com/j-c-m/Slither.io-bot/raw/master/bot.user.js
-// @downloadURL  https://github.com/j-c-m/Slither.io-bot/raw/master/bot.user.js
-// @supportURL   https://github.com/j-c-m/Slither.io-bot/issues
+// @updateURL    https://github.com/TheArchiver/Slither.io-bot/raw/master/bot.user.js
+// @downloadURL  https://github.com/TheArchiver/Slither.io-bot/raw/master/bot.user.js
+// @supportURL   https://github.com/TheArchiver/Slither.io-bot/issues
 // @grant        none
 // ==/UserScript==
 
