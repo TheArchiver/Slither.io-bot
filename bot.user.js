@@ -7,7 +7,7 @@ The MIT License (MIT)
 // ==UserScript==
 // @name         Slither.io +!
 // @namespace    https://github.com/TheArchiver/Slither.io-bot
-// @version      3.0.3
+// @version      3.0.4
 // @description  Slither.io Bot Championship Edition
 // @author       Carter Cole
 // @match        http://slither.io/
